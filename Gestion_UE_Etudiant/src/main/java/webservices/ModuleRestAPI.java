@@ -39,4 +39,16 @@ public class ModuleRestAPI {
         }
         return Response.status(400).entity("didn't get added").build();
     }
+    // Recherche par type : /module?type=PROFESSIONNEL
+    @Path("")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchByType(@QueryParam("type") String type) {
+        try {
+            Module.TypeModule t = Module.TypeModule.valueOf(type.toUpperCase());
+            return Response.ok(helper.getModulesByType(t)).build();
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Response.status(400).entity("type invalide").build();
+        }
+    }
 }
