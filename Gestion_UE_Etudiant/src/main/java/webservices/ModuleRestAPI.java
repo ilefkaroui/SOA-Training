@@ -98,4 +98,12 @@ public class ModuleRestAPI {
         }
         return Response.status(404).entity("module not found").build();
     }
+    // Suppression : DELETE /module/delete?matricule=M101
+    @Path("/delete")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteModule(@QueryParam("matricule") String matricule) {
+        return Response.ok(helper.deleteModule(matricule)).build();
+    }
+}
 }
