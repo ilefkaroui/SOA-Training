@@ -1,4 +1,3 @@
-package webservices;
 import entities.Module;
 import entities.UniteEnseignement;
 import metiers.ModuleBusiness;
@@ -25,6 +24,7 @@ public class ModuleRestAPI {
                 .entity(helper.getAllModules())
                 .build();
     }
+
     // Ajouter un module
     @Path("/new")
     @POST
@@ -38,8 +38,8 @@ public class ModuleRestAPI {
             return Response.status(201).entity("added successfully").build();
         }
         return Response.status(400).entity("didn't get added").build();
-
     }
+
     // Recherche par matricule
     @Path("/search/{matricule}")
     @GET
@@ -50,6 +50,8 @@ public class ModuleRestAPI {
             return Response.status(404).entity("module not found").build();
         }
         return Response.ok(m).build();
+    }
+
     // Recherche par type : /module?type=PROFESSIONNEL
     @Path("")
     @GET
@@ -62,29 +64,6 @@ public class ModuleRestAPI {
             return Response.status(400).entity("type invalide").build();
         }
     }
-    // Modules d'une UE : /module/ue/1
-    @Path("/ue/{code}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getModulesByUE(@PathParam("code") int code) {
-        UniteEnseignement ue = ueHelper.getUEByCode(code);
-        if (ue == null) {
-            return Response.status(404).entity("UE not found").build();
-        }
-        return Response.ok(helper.getModulesByUE(ue)).build();
-    }
-    // Mise à jour : PUT /module/update/M101
-    @Path("/update/{matricule}")
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response updateModule(@PathParam("matricule") String matricule, Module module) {
-        if (helper.updateModule(matricule, module)) {
-            return Response.status(200).entity("updated successfully").build();
-        }
-        return Response.status(404).entity("module not found").build();
-    }
-
 
     // Modules d'une UE : /module/ue/1
     @Path("/ue/{code}")
@@ -109,6 +88,7 @@ public class ModuleRestAPI {
         }
         return Response.status(404).entity("module not found").build();
     }
+
     // Suppression : DELETE /module/delete?matricule=M101
     @Path("/delete")
     @DELETE
@@ -116,5 +96,4 @@ public class ModuleRestAPI {
     public Response deleteModule(@QueryParam("matricule") String matricule) {
         return Response.ok(helper.deleteModule(matricule)).build();
     }
-}
 }
