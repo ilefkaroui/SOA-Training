@@ -74,4 +74,28 @@ public class ModuleRestAPI {
         return Response.status(404).entity("module not found").build();
     }
 
+
+    // Modules d'une UE : /module/ue/1
+    @Path("/ue/{code}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getModulesByUE(@PathParam("code") int code) {
+        UniteEnseignement ue = ueHelper.getUEByCode(code);
+        if (ue == null) {
+            return Response.status(404).entity("UE not found").build();
+        }
+        return Response.ok(helper.getModulesByUE(ue)).build();
+    }
+
+    // Mise à jour : PUT /module/update/M101
+    @Path("/update/{matricule}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response updateModule(@PathParam("matricule") String matricule, Module module) {
+        if (helper.updateModule(matricule, module)) {
+            return Response.status(200).entity("updated successfully").build();
+        }
+        return Response.status(404).entity("module not found").build();
+    }
 }
