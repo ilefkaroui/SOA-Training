@@ -38,7 +38,18 @@ public class ModuleRestAPI {
             return Response.status(201).entity("added successfully").build();
         }
         return Response.status(400).entity("didn't get added").build();
+
     }
+    // Recherche par matricule
+    @Path("/search/{matricule}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchByMatricule(@PathParam("matricule") String matricule) {
+        Module m = helper.getModuleByMatricule(matricule);
+        if (m == null) {
+            return Response.status(404).entity("module not found").build();
+        }
+        return Response.ok(m).build();
     // Recherche par type : /module?type=PROFESSIONNEL
     @Path("")
     @GET
